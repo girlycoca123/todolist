@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do List</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Atma' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+    <center>
+        <h2 class="header">My To Do List
+            <br>
+            <br>
+            <form method="POST" action="/post">
+                <input name="list" type="text">
+                <select class="form-control" name="day" id="form" required>
+                        <option hidden value="">Select Parts of the day</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
+                    </select>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </h2>
+    </center>
+
+    <div class="container">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">List</th>
+                    <th scope="col">Part of the day </th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (i=0;i<data.length;i++){%>
+                    <tr>
+                        <td>
+                            <%=data[i].list%>
+                        </td>
+                        <br>
+                        <td>
+                            <%=data[i].day%>
+                        </td>
+                        <td>
+                            <form action="/delete" method="POST">
+                                <input type="text" hidden value="<%=i %>" name="id">
+                                <input type="submit" value="Delete" class="btn btn-danger" name="deleteBtn">
+                            </form>
+                        </td>
+                    </tr>
+                    <%}%>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
