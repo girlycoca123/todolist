@@ -1,29 +1,20 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const { urlencoded } = require('body-parser');
-urlEncodedParser = bodyParser.urlencoded({ extended: true });
+const database = require("./dbconnection");
+const { addToDo, getTodos, deleteTodo, getCurrentTodo, updateTodo } = require('./controller/todolistController');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set("view engine", "ejs");
 
-let values = [{ list: "Meditating", day: "Morning" }];
+database.connect();
 
-app.get("/", (req, res) => {
-    res.render("index", { data: values });
-});
-
-app.post("/post", urlEncodedParser, (req, res) => {
-    values.push(req.body);
-    res.redirect("/");
-})
-
-app.post("/delete", urlEncodedParser, (req, res) => {
-    let { id } = req.body
-    values.splice(id, 1)
-    res.redirect("/");
-})
-
+app.get("/", getTodos);
+app.post("/post", addToDo);
+app.post("/delete", deleteTodo);
+app.get("/update/:id", getCurrentTodo);
+app.post("/update/:id", updateTodo);
 
 app.listen(3000);
